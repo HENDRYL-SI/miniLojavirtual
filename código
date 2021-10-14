@@ -1,0 +1,208 @@
+<html>
+    <head>
+        <title>Loja virtual</title>
+        <meta charset="utf-8" />
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+                font-family: 'Courier New', Courier, monospace;
+            }
+            header{
+                background: purple;
+                padding: 20px;
+                color: white;
+            }
+            h3{
+                background: purple;
+                padding: 20px;
+                color: white;
+                max-width: 900px;
+                margin:0 auto;
+                margin-top: 10px;
+                display: none;
+            }
+            #produtos{
+                max-width: 900px;
+                margin:0 auto;
+                padding:30px 20px;
+                display: flex;
+                border-bottom: 1px solid #ccc;
+                
+            }
+
+            .produto-single{
+                border: 1px solid #ccc;
+                padding:10px;
+                margin: 4px;
+            }
+
+            .produto-single a{
+                background:purple;
+                text-decoration: none;
+                text-align: center;
+                color: white;
+                text-transform: uppercase;
+                padding: 7px;
+                border-radius: 5px;
+                margin-top: 20px;
+                display: block;
+            }
+
+            button.Cr{
+                padding: 3px 10px;
+                font-size: 18px;
+                border:0;
+                background: white;
+                cursor: pointer;
+                position: relative;
+                left: 70%;
+            }
+            button.Cr:hover{
+                background:rgb(24, 22, 22);
+                color: white;
+            }
+            #carrinho{
+                max-width: 900px;
+                margin:0 auto;
+                padding:30px 2%;
+                /* display:block; */
+                border: 2px solid #ccc;
+                border-radius: 10px;
+                margin-top: 10px;
+            }
+            div#pE{
+                width: 200px;
+                height: auto;
+                border: 1px solid #ccc;
+                display: inline-block;
+                padding: 5px;
+                margin-top: 5px;
+                border-radius: 5px;
+            }
+            button#BE{
+                width: 100%;
+                background: rgb(83, 4, 83);
+                cursor: pointer;
+                color:white;
+                border: 0;
+                margin-top: 5px;
+                font-size: 16px;
+                padding: 3px 0;
+            }
+            button#BC{
+                width: 100%;
+                background:purple;
+                cursor: pointer;
+                color:white;
+                border: 0;
+                font-size: 16px;
+                padding: 3px 0;
+                margin-top: 5px;
+            }
+
+            button#BE:hover{background:rgb(24, 22, 22)}
+            button#BC:hover{background:rgb(24, 22, 22)}
+        </style>
+    </head> 
+    <body>
+        <header>
+            Vitrine: 
+            <button id="Cr" class="Cr" onclick="document.getElementById('carrinho').style.display = 'block';document.getElementById('titulo').style.display = 'block'">Carrinho</button>
+        </header>
+
+        <div id="produtos">
+        </div><!--produtos-->
+       
+        <h3 id="titulo">Carrinho: <button onclick=" document.getElementById('carrinho').style.display = 'none';document.getElementById('titulo').style.display = 'none';" class="Cr">X</button></h3>
+        
+        <div id="carrinho">
+        </div><!--carrinho-->
+
+        <footer style="margin-top: 20px;;padding: 40px;background: purple;color: white;text-align: center;">
+            Pequena loja virtual em javaScript puro.
+        </footer>
+
+        <!-- aqui começa os script -->
+        <script>
+            const items = [
+                {
+                    id: 0,
+                    nome: 'camiseta',
+                    img: 'image.jpg',
+                    quantidade: 0,
+                },
+                {
+                    id: 1,
+                    nome: 'short',
+                    img: 'image.jpg',
+                    quantidade: 0,
+                },
+                {
+                    id: 2,
+                    nome: 'sapato',
+                    img: 'image.jpg',
+                    quantidade: 0,
+                },
+            ]
+
+
+            inicializarLoja = () => {
+                var containerProdutos = document.getElementById('produtos');
+                items.map((val)=>{
+                   containerProdutos.innerHTML += `
+                    <div class="produto-single">
+                        <img style="width:100%;" src="`+val.img+`" />
+                        <p>`+val.nome+`</p>
+                        <a key="`+val.id+`" href="#">Adicionar ao carrinho!<a/>
+                    </div>
+                   `;
+                })
+            }
+
+            inicializarLoja();
+
+
+
+            var containerCarrinho = document.getElementById('carrinho');
+            atualizarCarrinho = () => {
+               containerCarrinho.innerHTML = "";
+                items.map((val)=>{
+                    if(val.quantidade > 0){
+                   containerCarrinho.innerHTML+= `
+                  
+                    <div id="pE">
+                        <img style="width:100%;" src="`+val.img+`"/> 
+                        `+val.nome+` <hr>
+                        Quantidade: `+val.quantidade+`
+                        <hr>
+                        <button onclick="alert('Compra realizada com sucesso')" id="BC">Comprar</button>
+                        <hr> <button onclick="excluirItem();" id="BE">Excluir</button> 
+                     </div>`;
+                    }
+                })
+            }
+    document.getElementById('carrinho').style.display = "none";
+    function excluirItem (){
+        document.getElementById('pE').style.display = "none";
+    }
+
+
+            var links = document.getElementsByTagName('a');
+            for(var i = 0; i < links.length; i++){
+                links[i].addEventListener("click",function(){
+                    let key = this.getAttribute('key');
+                    items[key].quantidade++;
+                    atualizarCarrinho();
+                    return false;
+                })
+            }
+           
+
+
+        </script>
+
+    </body>
+
+</html>
